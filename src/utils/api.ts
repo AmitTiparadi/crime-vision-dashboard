@@ -47,14 +47,14 @@ export const getPrediction = async (params: PredictionRequest): Promise<Predicti
   }
 };
 
-export const detectObjects = async (imageFile: File): Promise<DetectionResult> => {
+export const detectObjects = async (videoUrl: string): Promise<DetectionResult> => {
   try {
-    const formData = new FormData();
-    formData.append("image", imageFile);
-    
     const response = await fetch(`${API_BASE_URL}/detect`, {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ videoUrl }),
     });
     
     if (!response.ok) {

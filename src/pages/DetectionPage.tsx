@@ -9,23 +9,21 @@ import { detectObjects, DetectionResult } from "@/utils/api";
 import { Play } from "lucide-react";
 
 export default function DetectionPage() {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [detectionResult, setDetectionResult] = useState<DetectionResult | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   
-  const handleImageSelected = (file: File, url: string) => {
-    setSelectedImage(file);
-    setImageUrl(url);
+  const handleVideoSelected = (url: string) => {
+    setVideoUrl(url);
     setDetectionResult(null);
   };
   
   const runDetection = async () => {
-    if (!selectedImage) return;
+    if (!videoUrl) return;
     
     setIsProcessing(true);
     try {
-      const result = await detectObjects(selectedImage);
+      const result = await detectObjects(videoUrl);
       setDetectionResult(result);
     } catch (error) {
       console.error("Detection error:", error);
@@ -39,17 +37,17 @@ export default function DetectionPage() {
       <div className="max-w-7xl mx-auto w-full">
         <h1 className="text-3xl font-bold mb-6">Object Detection</h1>
         <p className="mb-8 text-muted-foreground">
-          Upload an image and run YOLOv8 detection to identify objects within the image.
+          Enter a video URL and run YOLOv8 detection to identify objects within the video.
         </p>
         
         <div className="grid grid-cols-1 gap-8">
-          {!imageUrl ? (
-            <ImageUploader onImageSelected={handleImageSelected} />
+          {!videoUrl ? (
+            <ImageUploader onImageSelected={handleVideoSelected} />
           ) : (
             <div className="grid md:grid-cols-3 gap-6">
               <div className="md:col-span-2">
                 <ObjectDetectionCanvas 
-                  imageUrl={imageUrl} 
+                  imageUrl={videoUrl} 
                   detectionResult={detectionResult} 
                 />
                 {!detectionResult && (
@@ -70,12 +68,11 @@ export default function DetectionPage() {
                     <Button
                       variant="outline"
                       onClick={() => {
-                        setSelectedImage(null);
-                        setImageUrl(null);
+                        setVideoUrl(null);
                         setDetectionResult(null);
                       }}
                     >
-                      Upload New Image
+                      Add New Video
                     </Button>
                     <Button 
                       onClick={runDetection}
