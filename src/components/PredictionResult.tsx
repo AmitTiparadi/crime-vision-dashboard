@@ -1,15 +1,15 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PredictionResponse } from "@/utils/api";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface PredictionResultProps {
   result: PredictionResponse;
+  city: string;
   state: string;
   year: number;
 }
 
-export default function PredictionResult({ result, state, year }: PredictionResultProps) {
+export default function PredictionResult({ result, city, state, year }: PredictionResultProps) {
   // Prepare chart data
   const chartData = result.historical_data || [];
   // Add prediction to chart data if not already present
@@ -28,7 +28,7 @@ export default function PredictionResult({ result, state, year }: PredictionResu
       <CardContent>
         <div className="space-y-6">
           <div className="text-center p-4 bg-muted rounded-md">
-            <p className="text-lg">Predicted crime rate for <span className="font-semibold">{state}</span> in <span className="font-semibold">{year}</span>:</p>
+            <p className="text-lg">Predicted crime rate for <span className="font-semibold">{city}, {state}</span> in <span className="font-semibold">{year}</span>:</p>
             <p className="text-3xl font-bold text-primary mt-2">
               {result.predicted_rate.toFixed(2)}
               <span className="text-lg font-normal text-muted-foreground ml-1">per 100k</span>

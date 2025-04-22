@@ -1,10 +1,10 @@
-
 import { toast } from "@/components/ui/use-toast";
 
 const API_BASE_URL = "https://api.example.com"; // Replace with actual API URL
 
 export interface PredictionRequest {
   state: string;
+  city: string;
   year: number;
 }
 
@@ -22,7 +22,7 @@ export interface DetectionResult {
 export const getPrediction = async (params: PredictionRequest): Promise<PredictionResponse> => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/predict?state=${encodeURIComponent(params.state)}&year=${params.year}`
+      `${API_BASE_URL}/predict?state=${encodeURIComponent(params.state)}&city=${encodeURIComponent(params.city)}&year=${params.year}`
     );
     
     if (!response.ok) {

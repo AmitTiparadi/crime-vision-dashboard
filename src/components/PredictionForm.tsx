@@ -10,35 +10,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { US_STATES, PREDICTION_YEARS } from "@/data/states";
+import { INDIA_CITIES, PREDICTION_YEARS } from "@/data/states";
 import { getPrediction, PredictionResponse } from "@/utils/api";
 import { useToast } from "@/components/ui/use-toast";
 
 interface PredictionFormProps {
-  onResult: (result: PredictionResponse, state: string, year: number) => void;
+  onResult: (result: PredictionResponse, city: string, state: string, year: number) => void;
 }
 
 export default function PredictionForm({ onResult }: PredictionFormProps) {
-  const [state, setState] = useState<string>("");
+  const [city, setCity] = useState<string>("");
   const [year, setYear] = useState<number>(2025);
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
   
+  const selectedCityData = INDIA_CITIES.find(c => c.city === city);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!state) {
+    if (!city) {
       return toast({
         title: "Missing information",
-        description: "Please select a state",
+        description: "Please select a city",
         variant: "destructive",
       });
     }
     
+    const cityData = INDIA_CITIES.find(c => c.city === city);
+    if (!cityData) return;
+    
     setLoading(true);
     try {
-      const data = await getPrediction({ state, year });
-      onResult(data, state, year);
+      const data = await getPrediction({ state: cityData.state, city, year });
+      onResult(data, city, cityData.state, year);
     } catch (error) {
       console.error(error);
     } finally {
@@ -52,21 +57,21 @@ export default function PredictionForm({ onResult }: PredictionFormProps) {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div className="grid gap-2">
-              <label htmlFor="state" className="text-sm font-medium">
-                State
+              <label htmlFor="city" className="text-sm font-medium">
+                City
               </label>
               <Select
-                value={state}
-                onValueChange={setState}
+                value={city}
+                onValueChange={setCity}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a state" />
+                  <SelectValue placeholder="Select a city" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {US_STATES.map((stateName) => (
-                      <SelectItem key={stateName} value={stateName}>
-                        {stateName}
+                    {INDIA_CITIES.map((cityData) => (
+                      <SelectItem key={cityData.city} value={cityData.city}>
+                        {cityData.city}, {cityData.state}
                       </SelectItem>
                     ))}
                   </SelectGroup>

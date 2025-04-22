@@ -1,16 +1,29 @@
 
-export const US_STATES = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California",
-  "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-  "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
-  "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-  "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-  "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
-  "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
-  "District of Columbia"
+interface CityData {
+  city: string;
+  state: string;
+}
+
+export const INDIA_CITIES: CityData[] = [
+  { city: "Ahmedabad", state: "Gujarat" },
+  { city: "Bengaluru", state: "Karnataka" },
+  { city: "Chennai", state: "Tamil Nadu" },
+  { city: "Coimbatore", state: "Tamil Nadu" },
+  { city: "Delhi", state: "Delhi" },
+  { city: "Ghaziabad", state: "Uttar Pradesh" },
+  { city: "Hyderabad", state: "Telangana" },
+  { city: "Indore", state: "Madhya Pradesh" },
+  { city: "Jaipur", state: "Rajasthan" },
+  { city: "Kanpur", state: "Uttar Pradesh" },
+  { city: "Kochi", state: "Kerala" },
+  { city: "Kolkata", state: "West Bengal" },
+  { city: "Kozhikode", state: "Kerala" },
+  { city: "Lucknow", state: "Uttar Pradesh" },
+  { city: "Mumbai", state: "Maharashtra" },
+  { city: "Nagpur", state: "Maharashtra" },
+  { city: "Patna", state: "Bihar" },
+  { city: "Pune", state: "Maharashtra" },
+  { city: "Surat", state: "Gujarat" }
 ];
 
 export const PREDICTION_YEARS = Array.from(
