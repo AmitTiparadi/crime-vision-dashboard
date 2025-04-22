@@ -1,6 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 
-const API_BASE_URL = "https://api.example.com"; // Replace with actual API URL
+const API_BASE_URL = "https://YOUR_PROJECT.supabase.co/functions/v1"; // Replace with your actual Supabase project URL
 
 export interface PredictionRequest {
   state: string;
@@ -13,16 +13,10 @@ export interface PredictionResponse {
   historical_data?: { year: number; rate: number }[];
 }
 
-export interface DetectionResult {
-  boxes: number[][];
-  labels: string[];
-  scores: number[];
-}
-
 export const getPrediction = async (params: PredictionRequest): Promise<PredictionResponse> => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/predict?state=${encodeURIComponent(params.state)}&city=${encodeURIComponent(params.city)}&year=${params.year}`
+      `${API_BASE_URL}/predict-crime-rate?state=${encodeURIComponent(params.state)}&city=${encodeURIComponent(params.city)}&year=${params.year}`
     );
     
     if (!response.ok) {
@@ -36,7 +30,8 @@ export const getPrediction = async (params: PredictionRequest): Promise<Predicti
       description: error instanceof Error ? error.message : "Unknown error",
       variant: "destructive",
     });
-    // Return a mock response for development
+    
+    // Fallback mock response
     return { 
       predicted_rate: Math.random() * 20,
       historical_data: [
