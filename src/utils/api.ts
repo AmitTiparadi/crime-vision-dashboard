@@ -1,3 +1,4 @@
+
 import { toast } from "@/components/ui/use-toast";
 
 const API_BASE_URL = "https://YOUR_PROJECT.supabase.co/functions/v1"; // Replace with your actual Supabase project URL
@@ -11,6 +12,12 @@ export interface PredictionRequest {
 export interface PredictionResponse {
   predicted_rate: number;
   historical_data?: { year: number; rate: number }[];
+}
+
+export interface DetectionResult {
+  boxes: number[][];
+  labels: string[];
+  scores: number[];
 }
 
 export const getPrediction = async (params: PredictionRequest): Promise<PredictionResponse> => {
